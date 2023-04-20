@@ -6,7 +6,7 @@ import Filters from '../Filters.vue';
 const mockProducts = [
   {
     "name": "In Stock Expensive Gucci",
-    "price": 5000,
+    "price": 6000,
     "image": "https://picsum.photos/150",
     "rank": 1,
     "brand": "Gucci",
@@ -27,7 +27,7 @@ const mockProducts = [
     "isAvailable": true,
   }, {
     "name": "Out of Stock Cheap Fake",
-    "price": 100,
+    "price": 200,
     "image": "https://picsum.photos/150",
     "rank": 500,
     "brand": "Cuggi",
@@ -113,6 +113,57 @@ describe('Filters', () => {
       expect(emittedProducts.length).toBe(2);
       expect(emittedProducts[0].name).toBe('In Stock Cheap Fake');
       expect(emittedProducts[1].name).toBe('Out of Stock Cheap Fake');
+    })
+  });
+  describe('Sorting Pulldown menu', () => {
+    it('has a sorting pulldown menu and the default is Unsort', async () => {
+      const wrapper = mount(Filters, {props: {products: mockProducts}})
+
+      const sortingMenu = wrapper.find('select[id="sort"]')
+
+    
+      expect(sortingMenu.exists()).toBe(true)
+      expect(sortingMenu.isVisible()).toBe(true)
+
+      await wrapper.vm.$emit('filtering');
+
+      const emittedProducts = wrapper.emitted().filtering[wrapper.emitted().filtering.length - 2][0]
+      expect(emittedProducts).toBeTruthy;
+      expect(emittedProducts.length).toBe(4);
+      expect(emittedProducts[0].name).toBe('In Stock Expensive Gucci');
+      expect(emittedProducts[1].name).toBe('Out of Stock Expensive Gucci');
+      expect(emittedProducts[2].name).toBe('In Stock Cheap Fake');
+      expect(emittedProducts[3].name).toBe('Out of Stock Cheap Fake');
+    });
+    it('can sort by price desc from dropdown menu', async () => {
+      const wrapper = mount(Filters, {props: {products: mockProducts}})
+
+      const sortingMenu = wrapper.find('select[id="sort"]')
+      await sortingMenu.setValue('desc');
+
+      await wrapper.vm.$emit('filtering');
+
+      const emittedProducts = wrapper.emitted().filtering[wrapper.emitted().filtering.length - 2][0]
+      expect(emittedProducts.length).toBe(4);
+      expect(emittedProducts[0].name).toBe('In Stock Expensive Gucci');
+      expect(emittedProducts[1].name).toBe('Out of Stock Expensive Gucci');
+      expect(emittedProducts[2].name).toBe('Out of Stock Cheap Fake');
+      expect(emittedProducts[3].name).toBe('In Stock Cheap Fake');
+    });
+    it('can sort by relevance, in stock before out of stock, rank in asec, null at end', async () => {
+      const wrapper = mount(Filters, {props: {products: mockProducts}})
+
+      const sortingMenu = wrapper.find('select[id="sort"]')
+      await sortingMenu.setValue('relevance');
+
+      await wrapper.vm.$emit('filtering');
+
+      const emittedProducts = wrapper.emitted().filtering[wrapper.emitted().filtering.length - 2][0]
+      expect(emittedProducts.length).toBe(4);
+      expect(emittedProducts[0].name).toBe('In Stock Expensive Gucci');
+      expect(emittedProducts[1].name).toBe('In Stock Cheap Fake');
+      expect(emittedProducts[2].name).toBe('Out of Stock Expensive Gucci');
+      expect(emittedProducts[3].name).toBe('Out of Stock Cheap Fake');
     })
   })
 })
