@@ -71,6 +71,7 @@ export default {
 .product-image-instock,
 .product-image-outofstock {
   width: 100%;
+  border-radius: 10px;
 }
 
 .product-image-outofstock {
