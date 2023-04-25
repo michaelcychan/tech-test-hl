@@ -1,6 +1,6 @@
 # tech-test-HL
 
-This template should help get you started developing with Vue 3 in Vite.
+This was an extension of a technical assessment. The page is published [here](https://michaelcychan.github.io/tech-test-hl/).  
 
 ## Recommended IDE Setup
 
@@ -74,3 +74,29 @@ You will be assessed on both behaviour and design. Don't spend more than 2 hours
 
 To start, fork [this](/) project and set the project name to include your name. When you're finished, download the project and email the zipped file with a link to this project back to us.
 If you wish to continue past the allocated time, please create another fork.
+
+
+## Deployment to GitHub Pages
+
+To edit the config file `vite.config.js`:
+
+```js
+export default defineConfig({
+  // some other existing config
+  base: '/<repo-name>/'
+})
+```
+
+Then run the following commands for publishing
+
+```bash
+# to build the current code into /dist directory
+npm run build 
+
+# to force add /dist directory
+git add dist -f
+git commit - m 'some comment'
+
+# to push /dist directory into subtree
+git subtree push --prefix dist origin gh-pages
+```

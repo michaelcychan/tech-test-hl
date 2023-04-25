@@ -3,6 +3,9 @@
     <div class="task">
       <h2>Welcome to the H-L Technical Assessment</h2>
       <p>
+        This was a technical assessment by company H-L. I extended the assessment as a practice of Vue.js 3, the code of the project can be found <a href="https://github.com/michaelcychan/tech-test-hl">here</a> .
+      </p>
+      <p>
         You are provided with a set of products and are required to create a
         products listing page for a footwear retailer.<br />
         Write functionality and styling to:
